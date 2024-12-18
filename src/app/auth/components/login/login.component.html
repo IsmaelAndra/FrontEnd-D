@@ -1,0 +1,37 @@
+<body>
+    <section class="min-h-screen flex items-stretch text-white ">
+        <div class="lg:flex w-1/2 hidden bg-no-repeat bg-white bg-cover relative items-center -mt-10" style="background-image: url('assets/layout/images/logo.jpg')" >
+            <div class="absolute opacity-60 inset-0 z-0"></div>
+        </div>
+        <div class="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0" style="background-color: #161616;">
+            <div class="w-full py-6 z-20">
+                <h1 class="my-3 font-black text-4xl" style=" font-family: 'Playfair Display'">
+                    <div class="bg-white rounded-full z-10 w-24 p-2 flex mx-auto mb-2">
+                        <img src="https://i.pinimg.com/originals/81/91/42/8191429b6b5ca61af40c87d699c3b80e.png" class="h-20 w-20" alt="">
+                    </div>
+                    ARTE MANIA
+                </h1>
+                <form [formGroup]="loginForm" (ngSubmit)="funIngresar()" class="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                    <div class="pb-2 pt-4">
+                        <input id="email" type="email" formControlName="email" placeholder="Correo electrónico" class="block w-full p-4 text-lg rounded-sm bg-black">
+                        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-500 text-sm">
+                            El correo es obligatorio y debe ser válido.
+                        </div>
+                    </div>
+                    <div class="pb-2 pt-4">
+                        <input class="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" formControlName="password" placeholder="Contraseña" >
+                        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-sm">
+                            La contraseña es obligatoria.
+                        </div>
+                    </div>
+                    <div class="text-right text-gray-400 hover:underline hover:text-gray-100">
+                        <a [routerLink]="['/auth/register']" class="text-blue-500 font-medium hover:underline ml-4">Registrarse</a>
+                    </div>
+                    <div class="px-4 pb-2 pt-4">
+                        <button type="submit" class="uppercase block w-full p-4 text-lg rounded-full bg-white text-black hover:bg-gray-400 focus:outline-none">Iniciar Sesión</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>

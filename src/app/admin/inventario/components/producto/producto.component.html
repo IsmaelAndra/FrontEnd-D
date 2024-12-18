@@ -1,0 +1,131 @@
+<div class="card px-6 py-6">
+    <h1>Producto</h1>
+  
+    <!-- Barra de herramientas -->
+    <p-toolbar styleClass="mb-4">
+      <p-dropdown 
+        [options]="categorias" 
+        optionLabel="name" 
+        [showClear]="true" 
+        placeholder="Filtrar por Categorías">
+      </p-dropdown>
+      <ng-template pTemplate="left">
+        <div class="my-2">
+          <button 
+            pButton 
+            pRipple 
+            label="Exportar" 
+            icon="pi pi-upload" 
+            class="p-button-help" 
+            (click)="openNew()">
+          </button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+  
+    <!-- Tabla de productos -->
+    <p-table #dt [value]="products" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Categoría</th>
+          <th>Stock</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.nombre }}</td>
+          <td>{{ product.precio }}</td>
+          <td>{{ product.categoria_id }}</td>
+          <td>{{ product.stock }}</td>
+          <td>{{ product.estado }}</td>
+          <td>
+            <button 
+              pButton 
+              icon="pi pi-pencil" 
+              class="p-button-rounded p-button-success mr-2" 
+              (click)="editProduct(product)">
+            </button>
+            <button 
+              pButton 
+              icon="pi pi-trash" 
+              class="p-button-rounded p-button-danger" 
+              (click)="deleteProduct(product)">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <!-- Modal de edición -->
+    <p-dialog [(visible)]="mostrarEditor" header="Editar Producto" [style]="{width: '50vw'}">
+      <style>
+        .p-fluid .p-field {
+          margin-bottom: 1.5rem;
+        }
+  
+        .p-fluid .p-field label {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          display: block;
+        }
+  
+        .p-dialog .p-fluid {
+          padding: 1.5rem;
+        }
+  
+        .p-footer button {
+          margin-right: 1rem;
+        }
+      </style>
+  
+      <div class="p-fluid p-grid" *ngIf="productoSeleccionado">
+        <div class="p-field p-col-12">
+          <label for="id">ID</label>
+          <input id="id" pInputText [(ngModel)]="productoSeleccionado.id" disabled />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" pInputText [(ngModel)]="productoSeleccionado.nombre" />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="precio">Precio</label>
+          <input id="precio" type="number" pInputText [(ngModel)]="productoSeleccionado.precio" />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="categoria">Categoría</label>
+          <input id="categoria" pInputText [(ngModel)]="productoSeleccionado.categoria_id" />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="stock">Stock</label>
+          <input id="stock" type="number" pInputText [(ngModel)]="productoSeleccionado.stock" />
+        </div>
+      </div>
+  
+      <p-footer>
+        <button 
+          pButton 
+          type="button" 
+          label="Guardar" 
+          icon="pi pi-check" 
+          (click)="guardarProducto()" 
+          class="p-button-success">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          label="Cancelar" 
+          icon="pi pi-times" 
+          (click)="cerrarEditor()" 
+          class="p-button-secondary">
+        </button>
+      </p-footer>
+    </p-dialog>
+  </div>
+  

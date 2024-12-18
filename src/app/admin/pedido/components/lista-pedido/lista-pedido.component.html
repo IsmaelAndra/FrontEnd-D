@@ -1,0 +1,125 @@
+<div class="card px-6 py-6"> 
+    <h1>Lista de Pedidos</h1>
+  
+    <!-- Barra de herramientas -->
+    <p-toolbar styleClass="mb-4">
+      <p-dropdown 
+        [options]="categorias" 
+        optionLabel="name" 
+        [showClear]="true" 
+        placeholder="Filtrar por Categorías">
+      </p-dropdown>
+      <ng-template pTemplate="left">
+      </ng-template>
+    </p-toolbar>
+  
+    <!-- Tabla de pedidos -->
+    <p-table #dt [value]="pedidos" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>ID del Pedido</th>
+          <th>Fecha del Pedido</th>
+          <th>Nombre del Cliente</th>
+          <th>Estado del Pedido</th>
+          <th>Total del Pedido</th>
+          <th>Acciones</th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-pedido>
+        <tr>
+          <td>{{ pedido.id }}</td>
+          <td>{{ pedido.fecha | date }}</td>
+          <td>{{ pedido.cliente }}</td>
+          <td>{{ pedido.estado }}</td>
+          <td>{{ pedido.total | currency }}</td>
+          <td>
+            <button 
+              pButton 
+              icon="pi pi-pencil" 
+              class="p-button-rounded p-button-success mr-2" 
+              (click)="verDetalles(pedido)">
+            </button>
+            <button 
+              pButton 
+              icon="pi pi-refresh" 
+              class="p-button-rounded p-button-warning" 
+              (click)="cambiarEstado(pedido)">
+            </button>
+            <button 
+              pButton 
+              icon="pi pi-trash" 
+              class="p-button-rounded p-button-danger" 
+              (click)="eliminarPedido(pedido)">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  
+    <!-- Modal de detalles del pedido -->
+    <p-dialog [(visible)]="mostrarEditor" header="Detalles del Pedido" [style]="{width: '50vw'}">
+      <style>
+        .p-fluid .p-field {
+          margin-bottom: 1.5rem;
+        }
+  
+        .p-fluid .p-field label {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          display: block;
+        }
+  
+        .p-dialog .p-fluid {
+          padding: 1.5rem;
+        }
+  
+        .p-footer button {
+          margin-right: 1rem;
+        }
+      </style>
+  
+      <div class="p-fluid p-grid" *ngIf="pedidoSeleccionado">
+        <div class="p-field p-col-12">
+          <label for="id">ID del Pedido</label>
+          <input id="id" pInputText [(ngModel)]="pedidoSeleccionado.id" disabled />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="cliente">Nombre del Cliente</label>
+          <input id="cliente" pInputText [(ngModel)]="pedidoSeleccionado.cliente" />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="fecha">Fecha del Pedido</label>
+          <input id="fecha" pInputText [(ngModel)]="pedidoSeleccionado.fecha"  />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="estado">Estado del Pedido</label>
+          <input id="estado" pInputText [(ngModel)]="pedidoSeleccionado.estado"disabled />
+        </div>
+        <div class="p-field p-col-12">
+          <label for="total">Total del Pedido</label>
+          <input id="total" pInputText [(ngModel)]="pedidoSeleccionado.total"  />
+        </div>
+      </div>
+  
+      <p-footer>
+        <button 
+          pButton 
+          type="button" 
+          label="Guardar Cambios" 
+          icon="pi pi-check" 
+          (click)="guardarPedido()" 
+          class="p-button-success">
+        </button>
+        <button 
+          pButton 
+          type="button" 
+          label="Cancelar" 
+          icon="pi pi-times" 
+          (click)="cerrarEditor()" 
+          class="p-button-secondary">
+        </button>
+      </p-footer>
+    </p-dialog>
+  </div>
+  

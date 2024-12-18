@@ -1,0 +1,167 @@
+<div class="card">
+    <h1 class="title">Categorías</h1>
+
+    <p-button (onClick)="mostrarDialog()" label="Nueva Categoría" class="new-category-button" />
+
+    <!-- Diálogo para Crear/Editar Categoría -->
+    <p-dialog 
+        header="Editar Categoría" 
+        [(visible)]="dialog_visible" 
+        [modal]="true"
+        [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+        [style]="{ width: '50vw' }" 
+        [draggable]="false" 
+        [resizable]="false" 
+        class="custom-dialog p-fluid">
+
+        <form [formGroup]="categoriaForm" (ngSubmit)="guardarCategoria()">
+            <div class="field">
+                <label for="name" class="custom-label">Nombre</label>
+                <input type="text" pInputText id="name" required autofocus formControlName="nombre" class="custom-input" />
+
+                <!-- Mensaje de error si el campo es obligatorio -->
+                <small *ngIf="categoriaForm.get('nombre')?.hasError('required') && categoriaForm.get('nombre')?.touched" class="error-message">
+                    El campo de nombre es obligatorio.
+                </small>
+            </div>
+
+            <div class="field">
+                <label for="det" class="custom-label">Detalle</label>
+                <input type="text" pInputText id="det" formControlName="detalle" class="custom-input" />
+            </div>
+        </form>
+
+        <ng-template pTemplate="footer">
+            <button 
+                pButton 
+                pRipple 
+                label="Cancelar" 
+                icon="pi pi-times" 
+                class="cancel-button" 
+                (click)="dialog_visible=false">
+            </button>
+
+            <button 
+                pButton 
+                pRipple 
+                label="Guardar" 
+                icon="pi pi-check" 
+                class="save-button" 
+                [disabled]="categoriaForm.invalid" 
+                (click)="guardarCategoria()">
+            </button>
+        </ng-template>
+    </p-dialog>
+
+    <!-- Tabla de Categorías -->
+    <p-table [value]="categorias" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Detalle</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-categoria>
+            <tr>
+                <td>{{ categoria.id }}</td>
+                <td>{{ categoria.nombre }}</td>
+                <td>{{ categoria.detalle }}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button 
+                            pButton 
+                            pRipple 
+                            icon="pi pi-pencil" 
+                            class="p-button-rounded p-button-success edit-button" 
+                            (click)="editarCategoria(categoria)">
+                        </button>
+
+                        <button 
+                            pButton 
+                            pRipple 
+                            icon="pi pi-trash" 
+                            class="p-button-rounded p-button-danger delete-button" 
+                            (click)="eliminarCategoria(categoria)">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<style>
+.card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    color: #333;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.new-category-button {
+    margin-bottom: 20px;
+    background-color: #007ad9;
+    color: #fff;
+    font-weight: bold;
+}
+
+.custom-dialog {
+    border-radius: 8px;
+}
+
+.custom-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.custom-input {
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: #ff4d4d;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.save-button {
+    background-color: #28a745;
+    color: #fff;
+    font-weight: bold;
+}
+
+.cancel-button {
+    background-color: #ffc107;
+    color: #fff;
+    font-weight: bold;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+</style>
